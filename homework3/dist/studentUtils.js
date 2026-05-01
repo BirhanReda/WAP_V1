@@ -1,24 +1,15 @@
-import type { Student, GraduateStudent } from './models.js';
-
-
-export function calculateAverage(student: Student): number {
-
+export function calculateAverage(student) {
     let total = 0;
     for (const grade of student.grades) {
         total += grade;
     }
-
-
     return total / student.grades.length;
 }
-
-export function printStudentInfo(student: Student | GraduateStudent): void {
+export function printStudentInfo(student) {
     const average = calculateAverage(student);
-
     console.log(`name is ${student.name}  | averageGrades: ${average}`);
-
-
     if ('advisor' in student) {
-        console.log(`advisor's name is ${student.advisor}`)
+        console.log(`advisor's name is ${student.advisor}`);
     }
 }
+//# sourceMappingURL=studentUtils.js.map
