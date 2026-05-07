@@ -8,10 +8,10 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
 export const validation = (req: Request, res: Response, next: NextFunction) => {
     const { title, author, year } = req.body;
 
-    if (!title?.trim()) {
+    if (typeof title !== 'string' || !title?.trim()) {
         return res.status(400).json({ message: "title is required and must be a non-empty string." });
     }
-    if (!author?.trim()) {
+    if (typeof author !== 'string' || !author?.trim()) {
         return res.status(400).json({ message: "author is required and must be a non-empty string." });
     }
     if (year === undefined || year === null) {
@@ -27,17 +27,19 @@ export const validation = (req: Request, res: Response, next: NextFunction) => {
 };
 //Add simple API key middleware: require header `x-api-key=secret123` for all `/books/*` routes.
 export const apiMiddleWare = (req: Request, res: Response, next: NextFunction) => {
-    const apiKey = req.headers['x-api-key'];
+    const apiKey = req.header('x-api-key');
     if (!apiKey) {
-        return res.status(404).json({ error: "missing api key" });
+        return res.status(404).json({
+            success: false,
+            data: "missing api key"
+        });
 
     }
     if (apiKey !== 'secret123') {
-        return res.status(404).json({ error: "invalid api key" })
+        return res.status(404).json({
+            success: false,
+            data: "invalid api key"
+        })
     }
     next();
 }
-export const errorHandler = (error: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).json({ error: error.message || "the server problem" });
-    next();
-};

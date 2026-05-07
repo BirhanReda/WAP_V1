@@ -17,6 +17,6 @@ router.get('/books/:id', getBookById)
 router.patch('/books/:id', validation, updateBook)
 
 //5. `DELETE /books/:id` →
-router.delete('books/:id', deleteBookById)
+router.delete('/books/:id', deleteBookById)
 
 export default router;

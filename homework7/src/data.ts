@@ -1,3 +1,7 @@
+export interface IBook {
+    success: boolean;
+    data: any;
+}
 export interface Book {
 
     "id": string,
