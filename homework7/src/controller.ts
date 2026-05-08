@@ -60,7 +60,7 @@ export const getBookById = (req: Request, res: Response) => {
         })
     } else {
         return res.status(404).json({
-            success: true,
+            success: false,
             data: "Book not found"
         })
     }
@@ -68,7 +68,7 @@ export const getBookById = (req: Request, res: Response) => {
 export const updateBook = (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { title, author, year } = req.body;
+
 
     const index = books.findIndex(b => b.id === id);
     if (index === -1) {
@@ -78,14 +78,13 @@ export const updateBook = (req: Request, res: Response) => {
         });
     }
 
-    const book = books[index] as Book;
-    if (title) book.title = title;
-    if (author) book.author = author;
-    if (year) book.year = Number(year);
-
+    books[index] = {
+        ...books[index],
+        ...req.body
+    };
     return res.status(200).json({
         success: true,
-        data: books[index]
+        data: books
     });
 
 

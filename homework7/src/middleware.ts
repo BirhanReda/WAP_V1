@@ -8,19 +8,23 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
 export const validation = (req: Request, res: Response, next: NextFunction) => {
     const { title, author, year } = req.body;
 
-    if (typeof title !== 'string' || !title?.trim()) {
-        return res.status(400).json({ message: "title is required and must be a non-empty string." });
-    }
-    if (typeof author !== 'string' || !author?.trim()) {
-        return res.status(400).json({ message: "author is required and must be a non-empty string." });
-    }
-    if (year === undefined || year === null) {
-        return res.status(400).json({ message: "year is required." });
+    if (title !== undefined) {
+        if (typeof title !== 'string' || !title.trim()) {
+            return res.status(400).json({ message: "title must be a valid string" });
+        }
     }
 
-    const parsedYear = Number(year);
-    if (isNaN(parsedYear) || !Number.isInteger(parsedYear)) {
-        return res.status(400).json({ message: "year must be a valid integer." });
+    if (author !== undefined) {
+        if (typeof author !== 'string' || !author.trim()) {
+            return res.status(400).json({ message: "author must be a valid string" });
+        }
+    }
+
+    if (year !== undefined) {
+        const parsedYear = Number(year);
+        if (isNaN(parsedYear) || !Number.isInteger(parsedYear)) {
+            return res.status(400).json({ message: "year must be a valid integer." });
+        }
     }
 
     next();
